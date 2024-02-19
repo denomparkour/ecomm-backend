@@ -14,7 +14,8 @@ const mysql_db = process.env.MYSQL_DB;
 const solr_host = process.env.SOLR_HOST;
 const solr_port = process.env.SOLR_PORT;
 const solr_core = process.env.SOLR_CORE;
-
+const solr_url = `http://${solr_host}:${solr_port}/solr/${solr_core}/update?commit=true`;
+console.log(solr_url);
 app.use(cors());
 app.use(express.json());
 
@@ -62,7 +63,10 @@ function indexProductsInSolr(products) {
     });
   });
 }
-
+setTimeout(() => {
+  console.log("Indexing data")
+  fetchAndIndexProducts()
+}, 10000)
 function singularizeWord(word) {
   const exceptions = ["Louis", "louis", "shoes"];
   const words = word.split(/\s+/);
@@ -76,11 +80,6 @@ function singularizeWord(word) {
 
   return singularizedWords.join(" ");
 }
-
-setTimeout(() => {
-  console.log("Indexing data");
-  fetchAndIndexProducts();
-}, 10000);
 
 app.post("/categories", (req, res) => {
   console.count("categories page triggered");
