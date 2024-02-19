@@ -28,9 +28,8 @@ const connection = mysql.createConnection({
 const client = solr.createClient({
   host: solr_host,
   port: solr_port,
-  path: 'solr/3c9b2ae84f60/select',
   core: solr_core,
-  protocol: 'https',
+  protocol: "http",
 });
 
 connection.connect((err) => {
