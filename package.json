@@ -1,0 +1,21 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.4",
+    "express": "^4.18.2",
+    "log4js": "^6.9.1",
+    "mysql2": "^3.9.1",
+    "pluralize": "^8.0.0",
+    "solr-client": "^0.10.0-rc10",
+    "solr-node": "^1.2.1"
+  }
+}
