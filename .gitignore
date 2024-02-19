@@ -1,2 +1,5 @@
 node_modules/
 index_bak.js
+*.env
+solr.js 
+solrconfig.xml
