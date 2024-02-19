@@ -79,7 +79,7 @@ function singularizeWord(word) {
 
 setTimeout(() => {
   console.log("Indexing data");
-  indexProductsInSolr();
+  fetchAndIndexProducts();
 }, 2000);
 
 app.post("/categories", (req, res) => {
