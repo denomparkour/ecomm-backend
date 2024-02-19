@@ -4,16 +4,16 @@ const app = express();
 const solr = require("solr-client");
 const pluralize = require("pluralize");
 const cors = require("cors");
-
+const axios = require("axios");
 require("dotenv").config();
 const port = process.env.PORT || 8080;
 const mysql_host = process.env.MYSQL_HOST;
 const mysql_user = process.env.MYSQL_USER;
 const mysql_password = process.env.MYSQL_PASSWORD;
 const mysql_db = process.env.MYSQL_DB;
-const solr_host = process.env.SOLR_HOST 
-const solr_port = process.env.SOLR_PORT 
-const solr_core = process.env.SOLR_CORE
+const solr_host = process.env.SOLR_HOST;
+const solr_port = process.env.SOLR_PORT;
+const solr_core = process.env.SOLR_CORE;
 
 app.use(cors());
 app.use(express.json());
@@ -37,16 +37,32 @@ connection.connect((err) => {
     console.log("error", err);
   } else {
     console.log("Database connected successfully!");
+    fetchAndIndexProducts();
   }
 });
 
-// function singularizeWord(word) {
-//   const words = word.split(/\s+/); // Split the string into an array of words
-//   const singularizedWords = words.map((word) => pluralize.singular(word)); // Singularize each word
-//   const singularizedString = singularizedWords.join(" "); // Join the singularized words back into a string
-//   return singularizedString;
-// }
+function fetchAndIndexProducts() {
+  const sqlQuery = "SELECT * FROM products";
 
+  connection.query(sqlQuery, (err, results) => {
+    if (err) {
+      console.error("Error fetching products from SQL:", err);
+      return;
+    }
+    indexProductsInSolr(results);
+  });
+}
+
+function indexProductsInSolr(products) {
+  client.deleteAll();
+  products.forEach((product) => {
+    client.add(product, () => {
+      client.commit(() => {
+        console.log("Product indexed in Solr:", product);
+      });
+    });
+  });
+}
 function singularizeWord(word) {
   const exceptions = ["Louis", "louis", "shoes"];
   const words = word.split(/\s+/);
