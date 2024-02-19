@@ -80,7 +80,7 @@ function singularizeWord(word) {
 setTimeout(() => {
   console.log("Indexing data");
   fetchAndIndexProducts();
-}, 2000);
+}, 10000);
 
 app.post("/categories", (req, res) => {
   console.count("categories page triggered");
