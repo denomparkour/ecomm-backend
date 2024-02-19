@@ -62,19 +62,7 @@ function indexProductsInSolr(products) {
     });
   });
 }
-function commitToSolr(callback) {
-  client.commit(function (err, res) {
-    if (err) {
-      console.error("Error committing to Solr:", err);
-    } else {
-      console.log("Successfully committed to Solr:", res);
-    }
-    callback();
-  });
-}
-commitToSolr(function () {
-  fetchAndIndexProducts()
-});
+
 function singularizeWord(word) {
   const exceptions = ["Louis", "louis", "shoes"];
   const words = word.split(/\s+/);
@@ -88,6 +76,11 @@ function singularizeWord(word) {
 
   return singularizedWords.join(" ");
 }
+
+setTimeout(() => {
+  console.log("Indexing data");
+  indexProductsInSolr();
+}, 2000);
 
 app.post("/categories", (req, res) => {
   console.count("categories page triggered");
