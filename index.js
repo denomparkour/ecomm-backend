@@ -14,8 +14,7 @@ const mysql_db = process.env.MYSQL_DB;
 const solr_host = process.env.SOLR_HOST;
 const solr_port = process.env.SOLR_PORT;
 const solr_core = process.env.SOLR_CORE;
-const solr_url = `http://${solr_host}:${solr_port}/solr/${solr_core}/update?commit=true`;
-console.log(solr_url);
+
 app.use(cors());
 app.use(express.json());
 
@@ -43,7 +42,6 @@ connection.connect((err) => {
 
 function fetchAndIndexProducts() {
   const sqlQuery = "SELECT * FROM products";
-
   connection.query(sqlQuery, (err, results) => {
     if (err) {
       console.error("Error fetching products from SQL:", err);
