@@ -37,7 +37,6 @@ connection.connect((err) => {
     console.log("error", err);
   } else {
     console.log("Database connected successfully!");
-    fetchAndIndexProducts();
   }
 });
 
@@ -63,6 +62,19 @@ function indexProductsInSolr(products) {
     });
   });
 }
+function commitToSolr(callback) {
+  client.commit(function (err, res) {
+    if (err) {
+      console.error("Error committing to Solr:", err);
+    } else {
+      console.log("Successfully committed to Solr:", res);
+    }
+    callback();
+  });
+}
+commitToSolr(function () {
+  fetchAndIndexProducts()
+});
 function singularizeWord(word) {
   const exceptions = ["Louis", "louis", "shoes"];
   const words = word.split(/\s+/);
