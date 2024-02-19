@@ -20,7 +20,8 @@ app.use(express.json());
 
 const connection = mysql.createConnection({
   host: mysql_host,
-  user: mysql_user,  password: mysql_password,
+  user: mysql_user,
+  password: mysql_password,
   database: mysql_db,
 });
 
@@ -45,36 +46,6 @@ connection.connect((err) => {
 //   const singularizedString = singularizedWords.join(" "); // Join the singularized words back into a string
 //   return singularizedString;
 // }
-
-function fetchAndIndexProducts() {
-  const sqlQuery = "SELECT * FROM products";
-  connection.query(sqlQuery, (err, results) => {
-    if (err) {
-      console.error("Error fetching products from SQL:", err);
-      return;
-    }
-    indexProductsInSolr(results);
-  });
-}
-
-function indexProductsInSolr(products) {
-  client.deleteAll(() => {
-    products.forEach((product) => {
-      client.add(product, (err, response) => {
-        console.log(err)
-        if (err) {
-          console.error("Error adding product to Solr:", err);
-          return;
-        }
-        client.commit(() => {
-          console.log("Product indexed in Solr:", product);
-        });
-      });
-    });
-  });
-}
-
-fetchAndIndexProducts()
 
 function singularizeWord(word) {
   const exceptions = ["Louis", "louis", "shoes"];
