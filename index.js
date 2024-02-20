@@ -79,6 +79,16 @@ function singularizeWord(word) {
 
   return singularizedWords.join(" ");
 }
+function removeProductsWord(inputString) {
+  const modifiedString = inputString.replace(/\bproduct\b/gi, "");
+  const words = modifiedString.split(/\s+/);
+  if (words.length > 1) {
+    return modifiedString.trim();
+  } else {
+    return inputString;
+  }
+}
+
 
 app.post("/categories", (req, res) => {
   console.count("categories page triggered");
@@ -131,6 +141,7 @@ app.post("/solr", async (req, res) => {
   try {
     var userQuery = req.body.query.trim();
     userQuery = singularizeWord(userQuery);
+    userQuery = removeProductsWord(userQuery)
     let hasAnd = false;
     if (userQuery.includes("and")) {
       hasAnd = true;
