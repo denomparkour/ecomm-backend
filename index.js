@@ -37,6 +37,10 @@ connection.connect((err) => {
     console.log("error", err);
   } else {
     console.log("Database connected successfully!");
+    setTimeout(() => {
+      console.log("Indexing data");
+      fetchAndIndexProducts();
+    }, 10000);
   }
 });
 
@@ -61,10 +65,7 @@ function indexProductsInSolr(products) {
     });
   });
 }
-setTimeout(() => {
-  console.log("Indexing data")
-  fetchAndIndexProducts()
-}, 10000)
+
 function singularizeWord(word) {
   const exceptions = ["Louis", "louis", "shoes"];
   const words = word.split(/\s+/);
